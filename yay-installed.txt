@@ -1,0 +1,21 @@
+yay -S timeshift
+yay -S optimus-manager optimus-manager-qt
+yay -S thunar
+yay -S libinput-gestures gestures
+yay -S bluetuith
+yay -S anydesk
+yay -S deluge
+yay -S obs-studio
+yay -S alsamixergui
+yay -S lf-bin
+yay -S auto-cpufreq
+yay -S nvm
+yay -S discord
+yay -S cava
+yay -S stacer
+yay -S mongodb-compass
+yay -S telegram-desktop-bin
+yay -S brave-bin
+yay -S xdman
+yay -S visual-studio-code-bin
+yay -S postman-bin
