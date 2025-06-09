@@ -1,0 +1,20 @@
+super + p
+  flameshot gui
+
+super + o
+  discord
+
+alt + {shift} + o
+  brave
+
+alt + {shift} + p
+  clipmenu
+
+alt + {shift} + m
+  changevolume up
+
+alt + {shift} + n
+  changevolume down
+
+alt + {shift} + l
+  ppavuc
