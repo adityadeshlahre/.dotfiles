@@ -73,6 +73,7 @@ return {
             filetypes = { 'lua' },
           },
           -- null_ls.builtins.diagnostics.shellcheck,
+          null_ls.builtins.formatting.goimports,
         },
       }
     end,

@@ -443,7 +443,20 @@ require('lazy').setup({
       vim.keymap.set('n', '<leader>sf', builtin.find_files, { desc = '[S]earch [F]iles' })
       vim.keymap.set('n', '<leader>ss', builtin.builtin, { desc = '[S]earch [S]elect Telescope' })
       vim.keymap.set('n', '<leader>sw', builtin.grep_string, { desc = '[S]earch current [W]ord' })
-      vim.keymap.set('n', '<leader>sg', builtin.live_grep, { desc = '[S]earch by [G]rep' })
+      vim.keymap.set('n', '<leader>sg', function()
+        require('telescope.builtin').live_grep {
+          additional_args = function()
+            return {
+              '--glob',
+              '!**/node_modules/*',
+              '--glob',
+              '!**/.git/*',
+              '--glob',
+              '!**/dist/*',
+            }
+          end,
+        }
+      end, { desc = '[S]earch by [G]rep' })
       vim.keymap.set('n', '<leader>sd', builtin.diagnostics, { desc = '[S]earch [D]iagnostics' })
       vim.keymap.set('n', '<leader>sr', builtin.resume, { desc = '[S]earch [R]esume' })
       vim.keymap.set('n', '<leader>s.', builtin.oldfiles, { desc = '[S]earch Recent Files ("." for repeat)' })
@@ -466,6 +479,9 @@ require('lazy').setup({
         builtin.live_grep {
           grep_open_files = true,
           prompt_title = 'Live Grep in Open Files',
+          additional_args = function()
+            return { '--glob', '!**/node_modules/*' }
+          end,
         }
       end, { desc = '[S]earch [/] in Open Files' })
 
@@ -743,6 +759,24 @@ require('lazy').setup({
             -- by the server configuration above. Useful when disabling
             -- certain features of an LSP (for example, turning off formatting for ts_ls)
             server.capabilities = vim.tbl_deep_extend('force', {}, capabilities, server.capabilities or {})
+            server.on_attach = function(client, bufnr)
+              if server_name == 'tsserver' then
+                -- disable formatting capability
+                client.server_capabilities.documentFormattingProvider = false
+                client.server_capabilities.documentRangeFormattingProvider = false
+                return
+              end
+
+              -- enable format-on-save only if formatting is supported
+              if client.server_capabilities.documentFormattingProvider then
+                vim.api.nvim_create_autocmd('BufWritePre', {
+                  buffer = bufnr,
+                  callback = function()
+                    vim.lsp.buf.format { bufnr = bufnr }
+                  end,
+                })
+              end
+            end
             require('lspconfig')[server_name].setup(server)
           end,
         },
@@ -1011,9 +1045,9 @@ require('lazy').setup({
         -- Some languages depend on vim's regex highlighting system (such as Ruby) for indent rules.
         --  If you are experiencing weird indenting issues, add the language to
         --  the list of additional_vim_regex_highlighting and disabled languages for indent.
-        additional_vim_regex_highlighting = { 'ruby', 'javascript', 'typescript', 'go', 'yaml'},
+        additional_vim_regex_highlighting = { 'ruby', 'javascript', 'typescript', 'go', 'yaml' },
       },
-      indent = { enable = true, disable = { 'ruby', 'javascript', 'typescript', 'go', 'yaml'} },
+      indent = { enable = true, disable = { 'ruby', 'javascript', 'typescript', 'go', 'yaml' } },
     },
     -- There are additional nvim-treesitter modules that you can use to interact
     -- with nvim-treesitter. You should go explore a few and see what interests you:
