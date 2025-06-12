@@ -63,10 +63,22 @@ end
 set -Ux VIMRUNTIME /usr/share/nvim/runtime
 # vim runtime
 
-
 # gvm path
+
+function gvm
+    bash -c "source ~/.gvm/scripts/gvm && gvm $argv"
+end
+bass source ~/.gvm/scripts/gvm
+
+# gvm path end
 
 # set -Ux GVMPATH $HOME/.gvm/bin $GVMPATH
 # status --is-interactive; and source $HOME/.gvm/scripts/gvm
 
 # gvm path
+
+# Start ssh-agent if not already running
+# if not set -q SSH_AUTH_SOCK
+#     eval (ssh-agent -c)
+#     ssh-add ~/.ssh/id_aditya_clinikally > /dev/null
+# end
