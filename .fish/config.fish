@@ -1,6 +1,6 @@
-if status is-interactive
+# if status is-interactive
     # Commands to run in interactive sessions can go here
-end
+# end
 
 # Start X at login
 if status is-login
@@ -31,11 +31,6 @@ if type -q nvm
     nvm use latest >/dev/null
 end
 
-# GO
-set -Ux GOPATH $HOME/go
-set -Ux PATH $PATH $GOPATH/bin
-
-
 # rubyenv
 status --is-interactive; and source (rbenv init -|psub)
 
@@ -52,30 +47,37 @@ end
 # pnpm end
 
 # android-dev-start
-set -Ux ANDROID_HOME $HOME/Android/Sdk
-set -Ux ANDROID_SDK_ROOT $ANDROID_HOME
-if not string match -q -- $ANDROID_HOME/tools $PATH
-    set -gx PATH $ANDROID_HOME/tools $ANDROID_HOME/tools/bin $ANDROID_HOME/platform-tools $PATH
-end
+# set -Ux ANDROID_HOME $HOME/Android/Sdk
+# set -Ux ANDROID_SDK_ROOT $ANDROID_HOME
+# if not string match -q -- $ANDROID_HOME/tools $PATH
+    # set -gx PATH $ANDROID_HOME/tools $ANDROID_HOME/tools/bin $ANDROID_HOME/platform-tools $PATH
+# end
 # android-dev-stop
 
 # vim runtime
 set -Ux VIMRUNTIME /usr/share/nvim/runtime
 # vim runtime
 
+# GO
+set -Ux GOPATH $HOME/go
+# set -Ux PATH $PATH $GOPATH/bin
+
+# Add GOPATH bin to PATH
+set -U fish_user_paths $GOPATH/bin $fish_user_paths
+
 # gvm path
 
 function gvm
     bash -c "source ~/.gvm/scripts/gvm && gvm $argv"
 end
-bass source ~/.gvm/scripts/gvm
 
-# gvm path end
+# bass source ~/.gvm/scripts/gvm
+
 
 # set -Ux GVMPATH $HOME/.gvm/bin $GVMPATH
 # status --is-interactive; and source $HOME/.gvm/scripts/gvm
 
-# gvm path
+# gvm path end
 
 # Start ssh-agent if not already running
 # if not set -q SSH_AUTH_SOCK
