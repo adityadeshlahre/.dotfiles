@@ -14,11 +14,20 @@ return {
     { '\\', ':Neotree reveal<CR>', desc = 'NeoTree reveal', silent = true },
   },
   opts = {
+    window = {
+      position = 'left', -- Position of the NeoTree window
+      width = 30, -- Width of the NeoTree window
+      mappings = {
+        ['\\'] = 'close_window',
+      },
+    },
     filesystem = {
-      window = {
-        mappings = {
-          ['\\'] = 'close_window',
-        },
+      close_if_last_window = true, -- Close NeoTree if it's the last window
+      use_libuv_file_watcher = true,
+      filtered_items = {
+        visible = true, -- Show hidden files by default
+        hide_dotfiles = true,
+        hide_gitignored = true,
       },
     },
   },
