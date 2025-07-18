@@ -67,6 +67,10 @@ return {
             -- command = 'node_modules/.bin/prettier',
             -- extra_args = { '--single-quote', '--jsx-single-quote' },
           },
+          null_ls.builtins.formatting.black.with {
+            extra_args = { '--line-length=120', '--skip-string-normalization' },
+          },
+          null_ls.builtins.formatting.isort,
           -- null_ls.builtins.diagnostics.eslint_d,
           -- null_ls.builtins.code_actions.eslint_d,
           null_ls.builtins.formatting.stylua.with {

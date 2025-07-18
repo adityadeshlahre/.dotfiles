@@ -22,6 +22,7 @@ return {
       },
     },
     filesystem = {
+      hijack_netrw_behavior = 'open_default',
       close_if_last_window = true, -- Close NeoTree if it's the last window
       use_libuv_file_watcher = true,
       filtered_items = {
