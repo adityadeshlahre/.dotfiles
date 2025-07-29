@@ -67,6 +67,16 @@ return {
             -- command = 'node_modules/.bin/prettier',
             -- extra_args = { '--single-quote', '--jsx-single-quote' },
           },
+          null_ls.builtins.formatting.biome.with {
+            args = {
+              'check',
+              '--apply-unsafe',
+              '--formatter-enabled=true',
+              '--organize-imports-enabled=true',
+              '--skip-errors',
+              '$FILENAME',
+            },
+          },
           null_ls.builtins.formatting.black.with {
             extra_args = { '--line-length=120', '--skip-string-normalization' },
           },

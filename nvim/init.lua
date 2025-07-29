@@ -724,6 +724,7 @@ require('lazy').setup({
         -- clangd = {},
         gopls = {},
         pyright = {},
+        biome = {},
         -- rust_analyzer = {},
         -- ... etc. See `:help lspconfig-all` for a list of all the pre-configured LSPs
         --
@@ -780,16 +781,18 @@ require('lazy').setup({
             -- certain features of an LSP (for example, turning off formatting for ts_ls)
             server.capabilities = vim.tbl_deep_extend('force', {}, capabilities, server.capabilities or {})
             server.on_attach = function(client, bufnr)
-              if server_name == 'tsserver' then
+              local is_tsserver = server_name == 'ts_ls' or server_name == 'tsserver'
+
+              if is_tsserver then
                 -- disable formatting capability
                 client.server_capabilities.documentFormattingProvider = false
                 client.server_capabilities.documentRangeFormattingProvider = false
-                vim.api.nvim_clear_autocmds { group = 'LspFormatting', buffer = bufnr }
-                return
               end
 
+              vim.api.nvim_clear_autocmds { group = 'LspFormatting', buffer = bufnr }
+
               -- enable format-on-save only if formatting is supported
-              if client.server_capabilities.documentFormattingProvider then
+              if client.server_capabilities.documentFormattingProvider and not is_tsserver then
                 vim.api.nvim_create_autocmd('BufWritePre', {
                   group = vim.api.nvim_create_augroup('LspFormatting', { clear = true }),
                   buffer = bufnr,
@@ -1096,6 +1099,7 @@ require('lazy').setup({
   require 'kickstart.plugins.gitsigns', -- adds gitsigns recommend keymaps
   require 'custom.plugins.tailwind',
   require 'custom.plugins.surround',
+  require 'custom.plugins.lazygit',
 
   -- NOTE: The import below can automatically add your own plugins, configuration, etc from `lua/custom/plugins/*.lua`
   --    This is the easiest way to modularize your config.
