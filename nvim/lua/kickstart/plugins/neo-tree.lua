@@ -29,6 +29,12 @@ return {
         visible = true, -- Show hidden files by default
         hide_dotfiles = true,
         hide_gitignored = true,
+        hide_by_name = {
+          'node_modules', -- Hides the folder by name
+        },
+        never_show = {
+          'node_modules', -- Ensures it's never shown even when toggling
+        },
       },
       follow_current_file = {
         enabled = true,
